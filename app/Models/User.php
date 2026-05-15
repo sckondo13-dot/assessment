@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
@@ -28,5 +29,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+    public function siteMembers(): HasMany
+    {
+        return $this->hasMany(SiteMember::class);
+    }
+
+    public function evaluationsGiven(): HasMany
+    {
+        return $this->hasMany(Evaluation::class, 'evaluator_user_id');
+    }
+
+    public function evaluationsReceived(): HasMany
+    {
+        return $this->hasMany(Evaluation::class, 'target_user_id');
     }
 }
