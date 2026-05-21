@@ -14,6 +14,15 @@ class QuestionController extends Controller
      */
     public function index(Site $site)
     {
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
+
         $questions = Question::with('targetRole')
             ->where('site_id', $site->id)
             ->orderBy('sort_order')
@@ -31,6 +40,14 @@ class QuestionController extends Controller
      */
     public function create(Site $site)
     {
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
         $roles = Role::orderBy('sort_order')->get();
 
         return view('questions.create', compact(
@@ -66,6 +83,14 @@ class QuestionController extends Controller
      */
     public function edit(Site $site, Question $question)
     {
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
         $roles = Role::orderBy('sort_order')->get();
 
         return view('questions.edit', compact(

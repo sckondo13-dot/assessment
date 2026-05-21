@@ -12,6 +12,15 @@ class SiteController extends Controller
      */
     public function index()
     {
+
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
         $sites = Site::orderBy('sort_order')
             ->orderByDesc('id')
             ->get();
@@ -24,6 +33,15 @@ class SiteController extends Controller
      */
     public function create()
     {
+
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
         return view('sites.create');
     }
 
@@ -52,6 +70,15 @@ class SiteController extends Controller
      */
     public function edit(Site $site)
     {
+
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
         return view('sites.edit', compact('site'));
     }
 
@@ -80,6 +107,15 @@ class SiteController extends Controller
      */
     public function show(Site $site)
     {
+
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
         $site->load([
             'members.user',
             'members.role',

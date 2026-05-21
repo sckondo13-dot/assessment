@@ -5,16 +5,34 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
+                    @if(
+                    auth()->user()->isAdmin()
+                    ||
+                    auth()->user()->isSuperAdmin()
+                    )
                     <a href="{{ route('dashboard') }}">
+                        @endif
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        @if(
+                        auth()->user()->isAdmin()
+                        ||
+                        auth()->user()->isSuperAdmin()
+                        )
                     </a>
+                    @endif
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    @if(
+                    auth()->user()->isAdmin()
+                    ||
+                    auth()->user()->isSuperAdmin()
+                    )
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        ダッシュボード
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -37,15 +55,24 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             プロフィール変更
                         </x-dropdown-link>
+                        @if(
+                        auth()->user()->isAdmin()
+                        ||
+                        auth()->user()->isSuperAdmin()
+                        )
                         <x-dropdown-link :href="route('sites.index')">
                             現場一覧
                         </x-dropdown-link>
+                        <x-dropdown-link :href="route('evaluation-results.index')">
+                            評価一覧
+                        </x-dropdown-link>
+                        @endif
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
+                                onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 ログアウト
                             </x-dropdown-link>
@@ -91,7 +118,7 @@
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
+                        onclick="event.preventDefault();
                                         this.closest('form').submit();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>

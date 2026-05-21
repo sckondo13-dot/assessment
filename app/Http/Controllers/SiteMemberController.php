@@ -15,6 +15,15 @@ class SiteMemberController extends Controller
      */
     public function create(Site $site)
     {
+
+        if (
+            !auth()->user()->isAdmin()
+            &&
+            !auth()->user()->isSuperAdmin()
+        ) {
+
+            abort(403);
+        }
         $users = User::orderBy('name')->get();
 
         $roles = Role::orderBy('sort_order')->get();

@@ -6,6 +6,7 @@ use App\Http\Controllers\SiteController;
 use App\Http\Controllers\SiteMemberController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\EvaluationController;
+use App\Http\Controllers\EvaluationResultController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -67,4 +68,12 @@ Route::middleware('auth')->group(function () {
         [EvaluationController::class, 'store']
     )->name('evaluations.store');
 
+    Route::middleware('auth')->group(function () {
+
+        Route::get(
+            '/evaluation-results',
+            [EvaluationResultController::class, 'index']
+        )->name('evaluation-results.index');
+
+    });
 });
