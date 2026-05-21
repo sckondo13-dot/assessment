@@ -4,9 +4,11 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\SiteMemberController;
+use App\Http\Controllers\QuestionController;
+use App\Http\Controllers\EvaluationController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -19,12 +21,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::middleware('auth')->group(function () {
 
     Route::resource('sites', SiteController::class);
-
 });
 
 Route::middleware('auth')->group(function () {
@@ -45,5 +46,25 @@ Route::middleware('auth')->group(function () {
         '/site-members/{siteMember}',
         [SiteMemberController::class, 'destroy']
     )->name('site-members.destroy');
+
+    Route::resource(
+        'sites.questions',
+        QuestionController::class
+    );
+
+    Route::get(
+        '/evaluations',
+        [EvaluationController::class, 'index']
+    )->name('evaluations.index');
+
+    Route::post(
+        '/evaluations/confirm',
+        [EvaluationController::class, 'confirm']
+    )->name('evaluations.confirm');
+
+    Route::post(
+        '/evaluations/store',
+        [EvaluationController::class, 'store']
+    )->name('evaluations.store');
 
 });

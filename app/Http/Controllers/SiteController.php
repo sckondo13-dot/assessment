@@ -75,7 +75,7 @@ class SiteController extends Controller
             ->with('success', '現場を更新しました');
     }
 
-        /**
+    /**
      * 詳細
      */
     public function show(Site $site)
@@ -83,6 +83,7 @@ class SiteController extends Controller
         $site->load([
             'members.user',
             'members.role',
+            'questions.targetRole',
         ]);
 
         return view('sites.show', compact('site'));

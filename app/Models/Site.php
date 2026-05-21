@@ -24,9 +24,11 @@ class Site extends Model
         return $this->hasMany(SiteMember::class);
     }
 
-    public function questions(): HasMany
+    public function questions()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Question::class)
+            ->orderBy('sort_order')
+            ->orderBy('id');
     }
 
     public function evaluations(): HasMany

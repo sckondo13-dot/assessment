@@ -22,22 +22,40 @@ class Evaluation extends Model
         'submitted_at' => 'datetime',
     ];
 
-    public function site(): BelongsTo
+    /**
+     * 現場
+     */
+    public function site()
     {
         return $this->belongsTo(Site::class);
     }
 
-    public function evaluator(): BelongsTo
+    /**
+     * 評価者
+     */
+    public function evaluator()
     {
-        return $this->belongsTo(User::class, 'evaluator_user_id');
+        return $this->belongsTo(
+            User::class,
+            'evaluator_user_id'
+        );
     }
 
-    public function target(): BelongsTo
+    /**
+     * 被評価者
+     */
+    public function targetUser()
     {
-        return $this->belongsTo(User::class, 'target_user_id');
+        return $this->belongsTo(
+            User::class,
+            'target_user_id'
+        );
     }
 
-    public function answers(): HasMany
+    /**
+     * 回答一覧
+     */
+    public function answers()
     {
         return $this->hasMany(EvaluationAnswer::class);
     }

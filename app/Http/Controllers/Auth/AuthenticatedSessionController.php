@@ -28,7 +28,12 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        if ($request->user()->isWorker()) {
+
+            return redirect()->route('evaluations.index');
+        }
+
+        return redirect()->route('dashboard');
     }
 
     /**

@@ -44,4 +44,18 @@ class User extends Authenticatable
     {
         return $this->hasMany(Evaluation::class, 'target_user_id');
     }
+    public function isSuperAdmin()
+    {
+        return $this->role === 'super_admin';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
+
+    public function isWorker()
+    {
+        return $this->role === 'worker';
+    }
 }
