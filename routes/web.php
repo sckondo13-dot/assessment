@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SiteController;
+use App\Http\Controllers\SiteMemberController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,3 +20,30 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+Route::middleware('auth')->group(function () {
+
+    Route::resource('sites', SiteController::class);
+
+});
+
+Route::middleware('auth')->group(function () {
+
+    Route::resource('sites', SiteController::class);
+
+    Route::get(
+        '/sites/{site}/members/create',
+        [SiteMemberController::class, 'create']
+    )->name('site-members.create');
+
+    Route::post(
+        '/sites/{site}/members',
+        [SiteMemberController::class, 'store']
+    )->name('site-members.store');
+
+    Route::delete(
+        '/site-members/{siteMember}',
+        [SiteMemberController::class, 'destroy']
+    )->name('site-members.destroy');
+
+});

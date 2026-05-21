@@ -2,63 +2,101 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 一覧
      */
     public function index()
     {
-        //
+        $sites = Site::orderBy('sort_order')
+            ->orderByDesc('id')
+            ->get();
+
+        return view('sites.index', compact('sites'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 登録画面
      */
     public function create()
     {
-        //
+        return view('sites.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 保存
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'evaluation_deadline' => 'nullable|date',
+            'sort_order' => 'nullable|integer',
+        ]);
+
+        Site::create($validated);
+
+        return redirect()
+            ->route('sites.index')
+            ->with('success', '現場を登録しました');
     }
 
     /**
-     * Display the specified resource.
+     * 編集画面
      */
-    public function show(string $id)
+    public function edit(Site $site)
     {
-        //
+        return view('sites.edit', compact('site'));
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 更新
      */
-    public function edit(string $id)
+    public function update(Request $request, Site $site)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'start_date' => 'nullable|date',
+            'end_date' => 'nullable|date',
+            'evaluation_deadline' => 'nullable|date',
+            'sort_order' => 'nullable|integer',
+        ]);
+
+        $site->update($validated);
+
+        return redirect()
+            ->route('sites.index')
+            ->with('success', '現場を更新しました');
+    }
+
+        /**
+     * 詳細
+     */
+    public function show(Site $site)
+    {
+        $site->load([
+            'members.user',
+            'members.role',
+        ]);
+
+        return view('sites.show', compact('site'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * 削除
      */
-    public function update(Request $request, string $id)
+    public function destroy(Site $site)
     {
-        //
-    }
+        $site->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()
+            ->route('sites.index')
+            ->with('success', '現場を削除しました');
     }
 }
