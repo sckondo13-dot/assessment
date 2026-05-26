@@ -47,12 +47,36 @@
                     <span x-text="open ? '▲' : '▼'"></span>
 
                 </button>
+                <div class="btn_container">
+                    <div class="btn_inner">
+                        <a href="{{ route('sites.questions.create', $site) }}"
+                            class="bg-blue-500 text-white px-4 py-2 rounded">
 
-                <a href="{{ route('sites.questions.create', $site) }}"
-                    class="bg-blue-500 text-white px-4 py-2 rounded">
+                            質問追加
+                        </a>
+                        <a href="{{ route('sites.questions.copy-form', $site) }}"
+                            class="bg-purple-600 text-white px-4 py-2 rounded">
 
-                    質問追加
-                </a>
+                            質問コピー
+
+                        </a>
+                    </div>
+                    <div class="btn_inner">
+                        <a href="{{ route('sites.questions.import.form', $site) }}"
+                            class="bg-green-600 text-white px-4 py-2 rounded">
+
+                            CSV登録
+                        </a>
+                        <a href="{{ route('sites.questions.export', $site) }}"
+                            class="bg-gray-700 text-white px-4 py-2 rounded">
+
+                            CSVダウンロード
+                        </a>
+                    </div>
+
+
+
+                </div>
 
             </div>
 

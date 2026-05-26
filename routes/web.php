@@ -48,10 +48,15 @@ Route::middleware('auth')->group(function () {
         [SiteMemberController::class, 'destroy']
     )->name('site-members.destroy');
 
-    Route::resource(
-        'sites.questions',
-        QuestionController::class
-    );
+    Route::resource('sites.questions', QuestionController::class)
+        ->only([
+            'index',
+            'create',
+            'store',
+            'edit',
+            'update',
+            'destroy',
+        ]);
 
     Route::get(
         '/evaluations',
@@ -74,6 +79,30 @@ Route::middleware('auth')->group(function () {
             '/evaluation-results',
             [EvaluationResultController::class, 'index']
         )->name('evaluation-results.index');
-
     });
+    Route::get(
+        '/sites/{site}/questions/import',
+        [QuestionController::class, 'importForm']
+    )->name('sites.questions.import.form');
+
+    Route::post(
+        '/sites/{site}/questions/import',
+        [QuestionController::class, 'import']
+    )->name('sites.questions.import');
+
+    Route::get(
+        '/sites/{site}/questions/export',
+        [QuestionController::class, 'export']
+    )->name('sites.questions.export');
+
+    // 質問コピー
+    Route::get(
+        'sites/{site}/questions/copy',
+        [QuestionController::class, 'copyForm']
+    )->name('sites.questions.copy-form');
+
+    Route::post(
+        'sites/{site}/questions/copy',
+        [QuestionController::class, 'copyStore']
+    )->name('sites.questions.copy.store');
 });

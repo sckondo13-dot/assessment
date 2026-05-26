@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn_inner a{
+    margin-left: 2px;
+    display: inline-block;
+    margin-bottom: 2px;
+}

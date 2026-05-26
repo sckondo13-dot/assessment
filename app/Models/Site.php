@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-
+use App\Models\Question;
 use Illuminate\Database\Eloquent\Model;
 
 class Site extends Model
